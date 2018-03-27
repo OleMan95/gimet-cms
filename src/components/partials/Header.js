@@ -7,8 +7,8 @@ class Header extends Component {
 	render() {
 		return (
       <header className="header">
-        <h1 className="title">GIMET CMS</h1>
-        <img src={logo} alt={'logo'}/>
+	      <img src={logo} alt={'logo'}/>
+	      <h1 className="title">GIMET CMS</h1>
       </header>
 		);
 	}

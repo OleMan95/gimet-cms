@@ -8,10 +8,12 @@ class App extends Component {
 		return (
 			<div className="App">
         <Header />
-        <div className="App-Content">
+        <div className="">
         </div>
         <footer className="App-footer">
-          <p>Author: Oleksii Manachynskyi</p>
+          <p>Authors:</p>
+          <a href="/">Oleksii Manachynskyi</a>
+          <a href="/">Roman Suprun</a>
         </footer>
 			</div>
 		);
