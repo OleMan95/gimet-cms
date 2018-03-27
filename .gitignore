@@ -1,0 +1,10 @@
+
+server\.js
+
+server\.js\.map
+
+node_modules/
+
+public/
+
+\.idea/
