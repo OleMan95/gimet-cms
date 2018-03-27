@@ -1,0 +1,75 @@
+.App {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+
+}
+.App-header {
+    background-color: #222;
+    padding: 16px;
+    color: white;
+
+}
+.App-footer{
+    background-color: #222;
+    padding: 16px;
+    color: white;
+    text-align: start;
+}
+.App-title {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.App > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+.App-Content{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+.company-li{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.company-li-devider{
+    margin: 0 8px;
+}
+
+.App-CompanyAction{
+    width: 300px;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 16px 0;
+}
+.App-CompanyAction button{
+    width:100%;
+    background-color: #222;
+    color: white;
+    border:0;
+    border-radius: 3px;
+    padding: 6px 16px;
+    cursor: pointer;
+}
+.App-CompanyAction input{
+    border: 1px solid #bababa;
+    border-radius: 3px;
+    padding: 4px 16px;
+}
+.App ul{
+    padding: 0;
+    height: 80vh;
+    overflow: scroll;
+    width: 60vh;
+}
+
