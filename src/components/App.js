@@ -1,23 +1,14 @@
-import React, { Component } from 'react';
-import './App.css';
+import React from 'react';
+import {Switch, Route} from 'react-router-dom';
+import routes from './routes';
 import Header from './partials/Header';
 
-class App extends Component {
-
-	render() {
-		return (
-			<div className="App">
-        <Header />
-        <div className="">
-        </div>
-        <footer className="App-footer">
-          <p>Authors:</p>
-          <a href="/">Oleksii Manachynskyi</a>
-          <a href="/">Roman Suprun</a>
-        </footer>
-			</div>
-		);
-	}
-}
+const App = ()=>{
+	return (
+		<Switch>
+			{routes.map((route, i)=> <Route key={i} {...route}/>)}
+		</Switch>
+	);
+};
 
 export default App;

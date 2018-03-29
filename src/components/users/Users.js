@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './Users.css';
-import Header from './partials/Header';
+import Header from '../partials/Header';
 
-class App extends Component {
+class Users extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -26,6 +26,7 @@ class App extends Component {
 			<div className="App">
         <Header />
         <div className="">
+	        <p>Users</p>
 	        {
 		        this.state.experts.map(function(expert, i){
 			        console.log('test');
@@ -43,4 +44,4 @@ class App extends Component {
 	}
 }
 
-export default App;
+export default Users;
