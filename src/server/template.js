@@ -1,6 +1,6 @@
 import {renderToString} from "react-dom/server";
 
-export default ({ body, title }) => {
+export default ({footer, body, title }) => {
 	return `
     <!DOCTYPE html>
 		<html lang="en">
@@ -9,9 +9,11 @@ export default ({ body, title }) => {
 			    <title>${title}</title>
 			    <link rel="stylesheet" href="/css/main.css">
 			    <script src="/bundle.js" defer></script>
+	        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 			</head>
 			<body>
 				<div id="root">${body}</div>
+				${footer}
 			</body>
 		</html>
   `;

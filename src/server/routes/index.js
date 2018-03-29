@@ -4,6 +4,8 @@ import {renderToString} from "react-dom/server";
 import template from "../template";
 const router = express.Router();
 import App from "../../components/App";
+import Header from "../../components/partials/Header";
+import Footer from "../../components/partials/Footer";
 import {StaticRouter} from 'react-router-dom';
 
 
@@ -1435,9 +1437,12 @@ router.get('*', (req, res)=>{
 			<App />
 		</StaticRouter>
 	);
+	const header = renderToString(<Header />);
+	const footer = renderToString(<Footer />);
 
 	res.send(template({
 		body: murkup,
+		footer: footer,
 		title: 'GIMET-CMS'
 	}));
 });
