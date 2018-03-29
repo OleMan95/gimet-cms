@@ -1,4 +1,5 @@
 @import '../variables.scss';
+$page-name-margin: 0 1rem;
 
 .header{
     background-color: $default-font-color-black;
@@ -6,7 +7,7 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    padding: 8px 150px;
+    padding: .5rem $default-side-padding-lg;
 
     img{
         width: 50px;
@@ -14,5 +15,13 @@
     }
     h1{
         margin: 0;
+    }
+    a{
+        color: white;
+        text-decoration: none;
+    }
+    .page{
+        font-size: 1rem;
+        margin: $page-name-margin;
     }
 }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Header from '../partials/Header';
+import './Experts.scss';
 
 class Experts extends Component {
 	constructor(props){
@@ -22,12 +24,11 @@ class Experts extends Component {
 	render() {
 		return (
 			<div className="experts-page">
-        <Header />
-        <div className="">
+        <Header page={'users'}/>
+        <div className="content">
 	        <p>Experts</p>
 	        {
 		        this.state.experts.map(function(expert, i){
-			        console.log('test');
 			        return <li key={i}>{expert.name}</li>
 		        })
 	        }
