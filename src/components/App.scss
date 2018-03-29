@@ -27,5 +27,28 @@ html, body {
     color: cadetblue;
 }
 
+.not-found{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.not-found span{
+    color: #779cab33;
+    font-size: 500px;
+    position: absolute;
+    margin: 0 auto;
+    z-index: -1;
+}
+.not-found h1{
+    justify-self: flex-start;
+    color: #404e5c;
+    font-size: 40px;
+}
 
 

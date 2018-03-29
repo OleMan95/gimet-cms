@@ -1,0 +1,57 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+html{
+    font-size: 16px;
+}
+
+.App {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+.App-footer{
+    background-color: #222;
+    padding: 2rem;
+    text-align: start;
+    font-size: small;
+    display: flex;
+    align-items: center;
+}
+.App-footer p, .App-footer a{
+    margin-right: 8px;
+    color: white;
+    text-decoration: none;
+}
+.App-footer a:hover{
+    color: cadetblue;
+}
+
+.not-found{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.not-found span{
+    color: #779cab33;
+    font-size: 500px;
+    position: absolute;
+    margin: 0 auto;
+    z-index: -1;
+}
+.not-found h1{
+    justify-self: flex-start;
+    color: $primary-color;
+    font-size: 40px;
+}
+
+
