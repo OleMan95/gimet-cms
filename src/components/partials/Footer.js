@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import logo from "./logo.svg";
+import logo from "../../data/logo.svg";
 import './Header.scss';
 
 class Header extends Component {
 
 	render() {
 		return (
-      <header className="header">
-	      <img src={logo} alt={'logo'}/>
-	      <h1 className="title">GIMET CMS</h1>
-      </header>
+			<footer className="footer">
+				<p>Authors:</p>
+				<a href="/">Oleksii Manachynskyi</a>
+				<a href="/">Roman Suprun</a>
+			</footer>
 		);
 	}
 }

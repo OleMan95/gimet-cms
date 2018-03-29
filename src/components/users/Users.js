@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './Users.css';
 import Header from '../partials/Header';
 
 class Users extends Component {
@@ -23,7 +22,7 @@ class Users extends Component {
 
 	render() {
 		return (
-			<div className="App">
+			<div className="users-page">
         <Header />
         <div className="">
 	        <p>Users</p>

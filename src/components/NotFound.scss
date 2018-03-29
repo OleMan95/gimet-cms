@@ -1,34 +1,4 @@
-html, body {
-    margin: 0;
-    padding: 0;
-}
-html{
-    font-size: 16px;
-}
-
-.App {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
-}
-.App-footer{
-    background-color: #222;
-    padding: 2rem;
-    text-align: start;
-    font-size: small;
-    display: flex;
-    align-items: center;
-}
-.App-footer p, .App-footer a{
-    margin-right: 8px;
-    color: white;
-    text-decoration: none;
-}
-.App-footer a:hover{
-    color: cadetblue;
-}
+@import 'variables.scss';
 
 .not-found{
     position: absolute;
@@ -40,18 +10,18 @@ html{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-.not-found span{
-    color: #779cab33;
-    font-size: 500px;
-    position: absolute;
-    margin: 0 auto;
-    z-index: -1;
-}
-.not-found h1{
-    justify-self: flex-start;
-    color: $primary-color;
-    font-size: 40px;
-}
 
+    span{
+        color: #779cab33;
+        font-size: 30rem;
+        position: absolute;
+        margin: 0 auto;
+        z-index: -1;
+    }
+    h1{
+        justify-self: flex-start;
+        color: $primary-color;
+        font-size: 40px;
+    }
 
+}

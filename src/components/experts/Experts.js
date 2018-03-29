@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import './Experts.css';
-import Header from '../partials/Header';
-
 
 class Experts extends Component {
 	constructor(props){
@@ -24,7 +21,7 @@ class Experts extends Component {
 
 	render() {
 		return (
-			<div className="App">
+			<div className="experts-page">
         <Header />
         <div className="">
 	        <p>Experts</p>
@@ -35,11 +32,6 @@ class Experts extends Component {
 		        })
 	        }
         </div>
-        <footer className="App-footer">
-          <p>Authors:</p>
-          <a href="/">Oleksii Manachynskyi</a>
-          <a href="/">Roman Suprun</a>
-        </footer>
 			</div>
 		);
 	}

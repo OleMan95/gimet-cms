@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import Header from '../partials/Header';
+import './Login.scss';
+import logo from "../../data/logo-black.svg";
 
-class Experts extends Component {
+
+class Login extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -10,37 +12,24 @@ class Experts extends Component {
 	}
 
 	async componentDidMount() {
-		const res = await fetch('/v1/experts');
-		console.log(res);
 
-		if(res.status === 200){
-			this.setState({
-				experts: await res.json()
-			});
-		}
 	}
 
 	render() {
 		return (
-			<div className="experts-page">
-        <Header />
-        <div className="">
-	        <p>Experts</p>
-	        {
-		        this.state.experts.map(function(expert, i){
-			        console.log('test');
-			        return <li key={i}>{expert.name}</li>
-		        })
-	        }
+			<div className="login-page">
+				<div className="header">
+					<img src={logo} alt="gimet_logo"/>
+					<p>GIMET-CMS</p>
+				</div>
+        <div className="form">
+					<input type='email' className=''/>
+					<input type='password' className=''/>
+	        <a href='/users' className=''>LOGIN</a>
         </div>
-        <footer className="App-footer">
-          <p>Authors:</p>
-          <a href="/">Oleksii Manachynskyi</a>
-          <a href="/">Roman Suprun</a>
-        </footer>
 			</div>
 		);
 	}
 }
 
-export default Experts;
+export default Login;
