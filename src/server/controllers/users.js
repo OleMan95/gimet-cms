@@ -1,9 +1,11 @@
 "use strict";
 import User from '../models/user';
-// import ObjectId from 'mongoose'.Types.ObjectId;
-// import pick from 'lodash/pick';
+import Expert from '../models/expert';
+import {Types} from 'mongoose';
 import jwtService from '../services/jwt-service';
+// import pick from 'lodash/pick';
 
+const ObjectId = Types.ObjectId;
 
 class Users{
 	//POST /users
@@ -23,10 +25,9 @@ class Users{
 			res.status(403).send({ error: 'Forbidden!'});
 		}
 	}
-	// POST /auth/signin
+	//POST /auth/signin
 	async signin(req, res){
 		const { email, password } = req.body;
-		console.log(req.body);
 		try{
 			if(!email || !password){
 				res.status(400).send({ error: 'Invalid data' });
@@ -54,6 +55,27 @@ class Users{
 			res.status(400).send({ error: err});
 		}
 	}
+	//GET /user
+	async findOne(req, res){
+		const {authorization} = req.headers;
+		try{
+			const payload = await jwtService.verify(authorization);
+			console.log('payload: ',payload);
+			const id = ObjectId(payload._id);
+			const fields = req.query.fields || '';
+
+			if(req.query.populate){
+				res.send(await User.findById(id, fields).populate('experts'));
+			}else{
+				res.send(await User.findById(id, fields));
+			}
+
+
+		}catch(err){
+			res.status(403).send({ error: err});
+		}
+	}
+
 }
 
 export default Users;
