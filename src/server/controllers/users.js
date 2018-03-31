@@ -3,7 +3,7 @@ import User from '../models/user';
 import Expert from '../models/expert';
 import {Types} from 'mongoose';
 import jwtService from '../services/jwt-service';
-// import pick from 'lodash/pick';
+import pick from 'lodash/pick';
 
 const ObjectId = Types.ObjectId;
 
@@ -17,7 +17,7 @@ class Users{
 
 			if(payload._id){
 				const filter = req.body.filter || {};
-				res.send(await User.find(filter));
+				res.send(await User.find(filter).select({password:0, __v: 0}));
 			}else{
 				res.status(403).send({ error: 'Forbidden!' });
 			}
@@ -65,14 +65,57 @@ class Users{
 			const fields = req.query.fields || '';
 
 			if(req.query.populate){
-				res.send(await User.findById(id, fields).populate('experts'));
+				res.send(await User.findById(id, fields).select({password:0, __v: 0}).populate('experts'));
 			}else{
-				res.send(await User.findById(id, fields));
+				res.send(await User.findById(id, fields).select({password:0, __v: 0}));
 			}
 
 
 		}catch(err){
 			res.status(403).send({ error: err});
+		}
+	}
+	// POST /auth/signup
+	async signup(req, res){
+		try{
+			const {_id} = await User.create(pick(req.body, User.createFields));
+			const user = await User.findById({_id}).select({password:0, __v: 0});
+			res.send({ data: user });
+		}catch(err){
+			res.status(500).send({ error: err});
+		}
+	}
+	//PUT /users
+	async update(req, res){
+		const {authorization} = req.headers;
+		try{
+			const payload = await jwtService.verify(authorization);
+			console.log('payload: ',payload);
+			const id = ObjectId(payload._id);
+			const data = req.body;
+
+			res.send(await User.findByIdAndUpdate(id, data, {new:true}).select({password:0, __v: 0}));
+		}catch(err){
+			res.status(500).send({ error: err});
+		}
+	}
+	//DELETE /users
+	async delete(req, res){
+		const {authorization} = req.headers;
+		try{
+			const payload = await jwtService.verify(authorization);
+			const {id} = req.query;
+
+			const user = await User.findById(id);
+			if(!user) res.status(204).send({error: 'User not found!'});
+
+			const userExperts = user.experts;
+			for(let i=0;i<userExperts.length;i++){
+				await Expert.deleteOne({_id: ObjectId(userExperts[i])});
+			}
+			res.send(await User.deleteOne({_id: ObjectId(id)}));
+		}catch(err){
+			res.status(500).send({ error: err});
 		}
 	}
 

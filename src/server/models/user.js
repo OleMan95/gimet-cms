@@ -31,8 +31,8 @@ const UserSchema = new Schema({
 
 UserSchema.set('toJSON', {versionKey:false});
 
+UserSchema.statics.createFields = ['name', 'email', 'password', 'experts'];
 
-// Шифрование пароля
 UserSchema.pre('save', function(next){
 	if (!this.isModified('password')){
 		return next();
@@ -43,10 +43,8 @@ UserSchema.pre('save', function(next){
 	next();
 });
 
-// Сравнение паролей
 UserSchema.methods.comparePasswords = function(password){
 	return bcrypt.compareSync(password, this.password);
 };
-
 
 export default mongoose.model('User', UserSchema);
