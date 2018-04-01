@@ -2,12 +2,12 @@
 $page-name-margin: 0 1rem;
 
 .section-1{
-    background-color: $default-font-color-black;
-    color: #eaeaea;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    padding: .5rem $default-side-padding-lg;
+    //background-color: $default-font-color-black;
+    //color: #eaeaea;
+    //display: flex;
+    //justify-content: start;
+    //align-items: center;
+    //padding: .5rem $default-side-padding-lg;
 
     img{
         width: 50px;
@@ -17,11 +17,78 @@ $page-name-margin: 0 1rem;
         margin: 0;
     }
     a{
-        color: white;
+        //color: white;
         text-decoration: none;
     }
     .page{
         font-size: 1rem;
         margin: $page-name-margin;
+    }
+    .search-box{
+        //border: 2px solid red;
+        font-size: 20px;
+        margin-top: 20px;
+        //height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        p{
+            margin-left: 20px;
+            width: 160px;
+        }
+    }
+
+    .search-head{
+        border: 1px solid black;
+        border-radius: $border-radius-default;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .search-field{
+        border-radius: $border-radius-default;
+        font-size: 20px;
+        height: 40px;
+        margin-top: .5rem ;
+    }
+
+    .output-area{
+        border-radius: $border-radius-default;
+        font-size: 25px;
+        border: 1px solid black;
+        margin-top: 20px;
+        width: 100%;
+        height: 600px;
+        //margin-bottom: 50px;
+        li{
+            margin-left: 20px;
+        }
+    }
+
+
+    .filter-droplist{
+        border-radius: $border-radius-default;
+
+        margin-left: 20px;
+        font-size:20px;
+        width: 150px;
+        height: 40px;
+
+        option{
+            font-size: 15px;
+        }
+    }
+    .SearchBtn{
+        margin-left: 20px;
+        border: 1px solid black;
+        border-radius: $border-radius-default;
+        width: 100px;
+        height: 40px;
+        background-color: rgba(230,230,230, 0.9);
+        text-align: center;
+        line-height: 40px;
+        cursor: pointer;
     }
 }

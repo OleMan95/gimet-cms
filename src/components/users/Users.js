@@ -25,10 +25,10 @@ class Users extends Component {
 	render() {
 		return (
 			<div className="users-page">
-        <Header page={'experts'}/>
-        <div className="content">
-	        <Section1 />
-        </div>
+				<Header page={'experts'}/>
+				<div className="content">
+					<Section1 />
+				</div>
 			</div>
 		);
 	}
