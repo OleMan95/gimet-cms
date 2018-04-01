@@ -48,26 +48,30 @@ class Section1 extends Component {
 	render() {
 		return (
 			<div className="section-1">
-				<h1 className="title">Users</h1>
 				<div className="search-box">
-                    <div className="search-head">
-                        <select className="filter-droplist" onChange={this.filterChoose}>
-                            <option value="...">Searching to</option>
-                            <option value="Email" onChange={this.filterChoose} >Email</option>
-                            <option value="User Name">User name</option>
-                            <option value="Expert Name">Expert name</option>
-						</select>
-                        <p>Enter {this.state.filter}</p>
-                        <input type='text' onChange={this.getSearchDataValue} className='search-field'/>
-                        <a onClick={this.findData} className='SearchBtn'>SEARCH</a>
+          <div className="head">
+	          <div>
+		          <select className="filter-droplist" onChange={this.filterChoose}>
+	              <option value="...">Searching to</option>
+	              <option value="Email" onChange={this.filterChoose} >Email</option>
+	              <option value="User Name">User name</option>
+	              <option value="Expert Name">Expert name</option>
+							</select>
+	            <p>Enter {this.state.filter}</p>
+	          </div>
 
+	          <div>
+	            <input type='text' onChange={this.getSearchDataValue} className='search-field'/>
+	            <a onClick={this.findData} className='SearchBtn'>SEARCH</a>
+						</div>
 					</div>
+
 					<div className="output-area">
-                        {
-                            this.state.newExperts.map(function(expert, i){
-                                return <li key={i}>{expert.name}</li>
-                            })
-                        }
+            {
+                this.state.newExperts.map(function(expert, i){
+                    return <li key={i}>{expert.name}</li>
+                })
+            }
 					</div>
 
 				</div>

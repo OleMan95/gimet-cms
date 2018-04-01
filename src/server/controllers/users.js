@@ -65,9 +65,9 @@ class Users{
 			const fields = req.query.fields || '';
 
 			if(req.query.populate){
-				res.send(await User.findById(id, fields).select({password:0, __v: 0}).populate('experts'));
+				res.send(await User.findById(id, fields).populate('experts'));
 			}else{
-				res.send(await User.findById(id, fields).select({password:0, __v: 0}));
+				res.send(await User.findById(id, fields));
 			}
 
 
@@ -99,7 +99,7 @@ class Users{
 			res.status(500).send({ error: err});
 		}
 	}
-	//DELETE /users
+	//DELETE /users?id=id
 	async delete(req, res){
 		const {authorization} = req.headers;
 		try{
@@ -118,7 +118,6 @@ class Users{
 			res.status(500).send({ error: err});
 		}
 	}
-
 }
 
 export default Users;
