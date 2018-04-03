@@ -27,8 +27,16 @@ class Users{
 	}
 	//POST /auth/signin
 	async signin(req, res){
-		const { email, password } = req.body;
+		const { email, password, lc2 } = req.body;
 		try{
+			if(lc2 && lc2 > 3){
+				res.status(403).send({ error: 'Forbidden!'});
+				return;
+			}else if(!lc2){
+				res.status(403).send({ error: 'Forbidden!'});
+				return;
+			}
+
 			if(!email || !password){
 				res.status(400).send({ error: 'Invalid data' });
 				return;

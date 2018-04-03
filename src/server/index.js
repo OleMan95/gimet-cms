@@ -4,11 +4,13 @@ import React from "react";
 import {renderToString} from "react-dom/server";
 import path from "path";
 import logger from "morgan";
+import cookieParser from 'cookie-parser';
 
 import routes from "./routes/index"
 import users from "./routes/users"
 
 const app = express();
+app.use(cookieParser());
 
 app.use(logger('dev'));
 app.use(express.json());
