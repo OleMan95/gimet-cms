@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Login.scss';
 import logo from "../../data/logo-black.svg";
 import cookiesHelper from "../services/cookies-helper";
-
+import KeyHandler from 'react-key-handler';
 
 class Login extends Component {
 	constructor(props){
@@ -16,7 +16,6 @@ class Login extends Component {
 	}
 
 	async componentDidMount() {
-
 	}
 
 	handleInputChange=(event)=>{
@@ -35,6 +34,16 @@ class Login extends Component {
 		}
 	};
 
+	handleKeyDown=(event)=>{
+		switch (event.key) {
+			case "Enter":
+				this.onSignIn();
+				break;
+			default:
+				return;
+		}
+	};
+
 	onSignIn= async () => {
 		/**
 		 * at1 - authorization token
@@ -48,12 +57,14 @@ class Login extends Component {
 			return;
 		}
 
+		if(!this.state.emailValue.length > 0 || !this.state.passwordValue.length > 0){
+			alert('Please fill in the fields correctly.');
+			return;
+		}
+
 		//just signin count, it's usable in the server
 		const lc2Cookie = cookiesHelper.getCookie('lc2') || 0;
 		cookiesHelper.setCookie('lc2', parseInt(lc2Cookie) + 1, {expires: 3600});
-
-		console.log(this.state.emailValue);
-		console.log(this.state.passwordValue);
 
 		const res = await fetch('/v1/auth/signin', {
 			method: 'post',
@@ -66,7 +77,6 @@ class Login extends Component {
 				lc2: parseInt(lc2Cookie) + 1
 			})
 		});
-
 		const data = await res.json();
 
 		//signin successful
@@ -90,6 +100,7 @@ class Login extends Component {
 	render() {
 		return (
 			<div className="login-page">
+				<KeyHandler keyEventName={'keydown'} keyValue="Enter" onKeyHandle={this.onSignIn} />
 				<div className="header">
 					<img src={logo} alt="gimet_logo"/>
 					<p>GIMET-CMS</p>
@@ -98,7 +109,7 @@ class Login extends Component {
 					<input type='email' className='' name="email"
 					       onChange={(event)=>this.handleInputChange(event)}/>
 					<input type='password' className='' name="password"
-					       onChange={(event)=>this.handleInputChange(event)}/>
+					       onChange={(event)=>this.handleInputChange(event)} onKeyDown={this.handleKeyDown}/>
 	        <button onClick={this.onSignIn} disabled={this.state.disabled} className=''>LOGIN</button>
         </div>
 			</div>
