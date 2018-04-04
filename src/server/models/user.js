@@ -9,13 +9,10 @@ mongoose.plugin(uniqueValidator);
 const UserSchema = new Schema({
     name:{
         type:String,
-        // Указывает на то, что поле обязательно.
-        // В строке указывается сообщение при ошибке.
         required:'Name is required'
     },
     email:{
         type:String,
-        unique:'User with email "{VALUE}" already exist.',
         lowercase:true,
         required:'Email is required'
     },
@@ -23,11 +20,13 @@ const UserSchema = new Schema({
         type:String,
         required:'Password is required'
     },
+    isAdmin: Boolean,
     experts:[{
         type: Schema.ObjectId,
-        ref: 'Expert' // Это поле имеет ссылку на таблицу экспертов
+        ref: 'Expert'
     }]
 },{timestamps:true});
+UserSchema.index({name: 'text', email: 'text'});
 
 UserSchema.set('toJSON', {versionKey:false});
 

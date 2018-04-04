@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../partials/Header';
 import './Users.scss';
+import Section1 from '../section-1';
 
 class Users extends Component {
 	constructor(props){
@@ -24,15 +25,10 @@ class Users extends Component {
 	render() {
 		return (
 			<div className="users-page">
-        <Header page={'experts'}/>
-        <div className="content">
-	        <p>Users</p>
-	        {
-		        this.state.experts.map(function(expert, i){
-			        return <li key={i}>id: {expert._id}, name: {expert.name}</li>
-		        })
-	        }
-        </div>
+				<Header page={'experts'}/>
+				<div className="content">
+					<Section1 />
+				</div>
 			</div>
 		);
 	}
