@@ -1,4 +1,3 @@
-"use strict";
 import User from '../models/user';
 import Expert from '../models/expert';
 import {Types} from 'mongoose';
@@ -15,14 +14,16 @@ class Users{
 			const payload = await jwtService.verify(authorization);
 			console.log('payload: ',payload);
 
-			if(payload._id){
-				const filter = req.body.filter || {};
+			const {str} = req.query;
+			if(str){
+				const filter = { $text: { $search: str } };
 				res.send(await User.find(filter).select({password:0, __v: 0}));
 			}else{
-				res.status(403).send({ error: 'Forbidden!' });
+				res.send(await User.find().select({password:0, __v: 0}));
 			}
+
 		}catch(err){
-			res.status(403).send({ error: 'Forbidden!'});
+			res.status(403).send({ error: 'Forbidden!'+err});
 		}
 	}
 	//POST /auth/signin
@@ -44,6 +45,10 @@ class Users{
 			const user = await User.findOne({email});
 
 			if(!user){
+				res.status(400).send({error:'User not found'});
+				return;
+			}
+			if(!user.isAdmin){
 				res.status(400).send({error:'User not found'});
 				return;
 			}
@@ -108,7 +113,7 @@ class Users{
 		}
 	}
 	//DELETE /users?id=id
-	async delete(req, res){
+	async deleteOne(req, res){
 		const {authorization} = req.headers;
 		try{
 			const payload = await jwtService.verify(authorization);
