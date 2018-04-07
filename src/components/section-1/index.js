@@ -6,82 +6,44 @@ class Section1 extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			experts:[],
-			filter: '...',
-			searchName: '',
-			newExperts:[]
+			value:''
 		};
-    }
-
-	async componentDidMount() {
-		const res = await fetch('/v1/experts');
-		console.log(res);
-
-		if(res.status === 200){
-			this.setState({
-				experts: await res.json()
-			});
-		}
 	}
 
-    filterChoose=(event)=>{
-		this.setState({filter: event.target.value});
+	handleChange=(event)=>{
+		// console.log('value: ',event.target.value);
+		// this.setState({selectValue: event.target.value});
+		this.setState({value: event.target.value});
 	};
-
-	getSearchDataValue =(event)=>{
-        if(this.state.filter.toString() === "Expert Name")
-        {
-            this.setState({searchName: event.target.value});
-            console.log(this.state.filter);
-        }
-    };
-
-	findData=()=>{
-		const newdata = this.state.experts.filter(expert =>{
-            const name = expert.name.toLowerCase();
-			return name.includes(this.state.searchName);
-		});
-		this.setState({newExperts: newdata});
-		console.log(newdata);
+	handleInputChange=(event)=>{
+		// console.log('value: ',event.target.value);
 	};
+	onSearchClick=()=>{
+		console.log(this.state.value);
+	};
+	handleSubmit(event) {
+		console.log(this.state.value);
+	}
 
 	render() {
 		return (
 			<div className="section-1">
-				<div className="search-box">
-          <div className="head">
-	          <div>
-		          <select className="filter-droplist" onChange={this.filterChoose}>
-	              <option value="...">Searching to</option>
-	              <option value="Email" onChange={this.filterChoose} >Email</option>
-	              <option value="User Name">User name</option>
-	              <option value="Expert Name">Expert name</option>
-							</select>
-	            <p>Enter {this.state.filter}</p>
-	          </div>
-
-	          <div>
-	            <input type='text' onChange={this.getSearchDataValue} className='search-field'/>
-	            <a onClick={this.findData} className='SearchBtn'>SEARCH</a>
-						</div>
+        <div className="head">
+          <select value={this.state.value} onChange={this.handleChange}>
+	          <option value="" disabled hidden>Search by:</option>
+	          <option value="email">email</option>
+            <option value="name">name</option>
+            <option value="id">id</option>
+					</select>
+          <div className='search'>
+            <input type='text' onChange={this.handleInputChange}/>
+            <button onClick={this.onSearchClick}>SEARCH</button>
 					</div>
-
-					<div className="output-area">
-            {
-                this.state.newExperts.map(function(expert, i){
-                    return <li key={i}>{expert.name}</li>
-                })
-            }
-					</div>
-
 				</div>
 
+				<div className="output-area">
+				</div>
 
-				{/*{*/}
-				  {/*this.state.experts.map(function(expert, i){*/}
-					  {/*return <li key={i}>id: {expert._id}, name: {expert.name}</li>*/}
-				  {/*})*/}
-				{/*}*/}
 			</div>
 		);
 	}
