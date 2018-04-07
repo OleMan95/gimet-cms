@@ -32,6 +32,8 @@ export default {
 		if(str && srchby){
 			query = `?str=${str}&srchby=${srchby}`;
 		}
+		console.log('query: ', query);
+
 		const res = await fetch('/v1/users'+query, {
 			method: 'get',
 			headers: {
