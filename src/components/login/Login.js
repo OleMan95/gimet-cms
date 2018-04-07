@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Login.scss';
 import logo from "../../data/logo-black.svg";
 import cookiesHelper from "../services/cookies-helper";
+import apiHelper from "../services/api-helper";
 import KeyHandler from 'react-key-handler';
 
 class Login extends Component {
@@ -10,29 +11,11 @@ class Login extends Component {
 		this.state = {
 			experts:[],
 			disabled: false,
-			emailValue: '',
-			passwordValue: ''
 		};
 	}
 
 	async componentDidMount() {
 	}
-
-	handleInputChange=(event)=>{
-		switch (event.target.name) {
-			case 'email':
-				this.setState({
-					emailValue: event.target.value,
-				});
-				break;
-			case 'password':
-				this.setState({
-					passwordValue: event.target.value,
-				});
-				break;
-			default:
-		}
-	};
 
 	handleKeyDown=(event)=>{
 		switch (event.key) {
@@ -51,13 +34,16 @@ class Login extends Component {
 		 * lf5 - login forbidden
 		 * */
 
+		const emailValue = this.emailInput.value;
+		const passwordValue = this.passwordInput.value;
+
 		//signin not successful
 		if(cookiesHelper.getCookie('lf5')) {
 			alert('Forbidden! Try again later.');
 			return;
 		}
 
-		if(!this.state.emailValue.length > 0 || !this.state.passwordValue.length > 0){
+		if(!emailValue.length > 0 || !passwordValue.length > 0){
 			alert('Please fill in the fields correctly.');
 			return;
 		}
@@ -66,24 +52,12 @@ class Login extends Component {
 		const lc2Cookie = cookiesHelper.getCookie('lc2') || 0;
 		cookiesHelper.setCookie('lc2', parseInt(lc2Cookie) + 1, {expires: 3600});
 
-		const res = await fetch('/v1/auth/signin', {
-			method: 'post',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				email: this.state.emailValue,
-				password: this.state.passwordValue,
-				lc2: parseInt(lc2Cookie) + 1
-			})
-		});
-		const data = await res.json();
+		const {res, data} = await apiHelper.singin(emailValue, passwordValue, parseInt(lc2Cookie) + 1);
 
 		//signin successful
 		if(data.data && data.data.token){
 			cookiesHelper.setCookie('at1', data.data.token);
 			cookiesHelper.setCookie('lc2', "", {expires: -1});
-
 			this.props.history.push('/users');
 		}
 		console.log('res.status: ',res.status);
@@ -107,9 +81,10 @@ class Login extends Component {
 				</div>
         <div className="form">
 					<input type='email' className='' name="email"
-					       onChange={(event)=>this.handleInputChange(event)}/>
+					       ref={elem=>{this.emailInput = elem}}/>
 					<input type='password' className='' name="password"
-					       onChange={(event)=>this.handleInputChange(event)} onKeyDown={this.handleKeyDown}/>
+					       onKeyDown={this.handleKeyDown}
+					       ref={elem=>{this.passwordInput = elem}}/>
 	        <button onClick={this.onSignIn} disabled={this.state.disabled} className=''>LOGIN</button>
         </div>
 			</div>

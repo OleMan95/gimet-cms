@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Header from '../partials/Header';
-import './Users.scss';
 import Section1 from '../section-1';
+import cookiesHelper from "../services/cookies-helper";
+import apiHelper from "../services/api-helper";
+import './Users.scss';
 
 class Users extends Component {
 	constructor(props){
@@ -12,13 +14,18 @@ class Users extends Component {
 	}
 
 	async componentDidMount() {
-		const res = await fetch('/v1/experts');
-		console.log(res);
+		//token not found
+		if(cookiesHelper.getCookie('at1')) {
+			// this.props.history.push('/');
+			const user = await apiHelper.getUserData(cookiesHelper.getCookie('at1'));
 
-		if(res.status === 200){
-			this.setState({
-				experts: await res.json()
-			});
+		}else this.props.history.push('/');
+
+
+		// forbidden to signin
+		if(cookiesHelper.getCookie('lf5')) {
+			alert('Forbidden! Try again later.');
+			this.props.history.push('/');
 		}
 	}
 
