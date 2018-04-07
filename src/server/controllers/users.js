@@ -14,16 +14,16 @@ class Users{
 			const payload = await jwtService.verify(authorization);
 			console.log('payload: ',payload);
 
-			const {str} = req.query;
-			if(str){
-				const filter = { $text: { $search: str } };
+			const {str, srchby} = req.query;
+			if(str && srchby){
+				const filter = {[srchby]: new RegExp(str, 'ig') };
 				res.send(await User.find(filter).select({password:0, __v: 0}));
 			}else{
 				res.send(await User.find().select({password:0, __v: 0}));
 			}
 
 		}catch(err){
-			res.status(403).send({ error: 'Forbidden!'+err});
+			res.status(403).send({ error: err});
 		}
 	}
 	//POST /auth/signin
