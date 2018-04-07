@@ -73,14 +73,12 @@ class Users{
 		const {authorization} = req.headers;
 		try{
 			const payload = await jwtService.verify(authorization);
-			console.log('payload: ',payload);
-			const id = ObjectId(payload._id);
-			const fields = req.query.fields || '';
+			const id = req.query.id || ObjectId(payload._id);
 
 			if(req.query.populate){
-				res.send(await User.findById(id, fields).populate('experts'));
+				res.send(await User.findById(id).select({password:0, __v: 0}).populate('experts'));
 			}else{
-				res.send(await User.findById(id, fields));
+				res.send(await User.findById(id).select({password:0, __v: 0}));
 			}
 
 

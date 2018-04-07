@@ -7,23 +7,42 @@ export default {
 			},
 			body: JSON.stringify({email,password,lc2})
 		});
+		if(!res.ok) throw new Error('status: '+res.status);
 		const data = await res.json();
 		return {res, data};
 	},
 
-	async getUserData(token) {
-		const res = await fetch('/v1/users', {
+	async getUserData(token, id) {
+		const query = id ? `?id=${id}` : '';
+		const res = await fetch('/v1/user'+query, {
 			method: 'get',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authentication': token
+				'Authorization': token
 			}
 		});
+		if(!res.ok) throw new Error('status: '+res.status);
 		const data = await res.json();
 		return {res, data};
 	},
 
-	deleteCookie(name) {
+	async getUsers(token, srchby, str) {
+		let query = '';
 
-	}
+		if(str && srchby){
+			query = `?str=${str}&srchby=${srchby}`;
+		}
+		const res = await fetch('/v1/users'+query, {
+			method: 'get',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': token
+			}
+		});
+		if(!res.ok) throw new Error('status: '+res.status);
+		const data = await res.json();
+		console.log('data: ', data);
+		return {res, data};
+	},
+
 };

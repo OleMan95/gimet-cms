@@ -14,19 +14,20 @@ class Users extends Component {
 	}
 
 	async componentDidMount() {
-		//token not found
-		if(cookiesHelper.getCookie('at1')) {
-			// this.props.history.push('/');
-			const user = await apiHelper.getUserData(cookiesHelper.getCookie('at1'));
+		try{
+			//token not found
+			await apiHelper.getUserData(cookiesHelper.getCookie('at1'));
 
-		}else this.props.history.push('/');
-
-
-		// forbidden to signin
-		if(cookiesHelper.getCookie('lf5')) {
+			// forbidden to signin
+			if(cookiesHelper.getCookie('lf5')) {
+				alert('Forbidden! Try again later.');
+				this.props.history.push('/');
+			}
+		}catch(err){
 			alert('Forbidden! Try again later.');
 			this.props.history.push('/');
 		}
+
 	}
 
 	render() {
