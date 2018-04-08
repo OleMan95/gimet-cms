@@ -15,6 +15,9 @@ class Login extends Component {
 	}
 
 	async componentDidMount() {
+		if(cookiesHelper.getCookie('at1')) {
+			this.props.history.push('/users');
+		}
 	}
 
 	handleKeyDown=(event)=>{
@@ -80,12 +83,12 @@ class Login extends Component {
 					<p>GIMET-CMS</p>
 				</div>
         <div className="form">
-					<input type='email' className='' name="email"
+					<input type='email' className='form-control' name="email"
 					       ref={elem=>{this.emailInput = elem}}/>
-					<input type='password' className='' name="password"
+					<input type='password' className='form-control' name="password"
 					       onKeyDown={this.handleKeyDown}
 					       ref={elem=>{this.passwordInput = elem}}/>
-	        <button onClick={this.onSignIn} disabled={this.state.disabled} className=''>LOGIN</button>
+	        <button onClick={this.onSignIn} disabled={this.state.disabled} className="btn">LOGIN</button>
         </div>
 			</div>
 		);

@@ -2,15 +2,29 @@
 $page-name-margin: 0 1rem;
 
 .section-1{
-    .head{
-        margin-top: 1rem;
+  .head{
+    margin-top: 1rem;
 
-        select{
-            width: 9rem;
-        }
-        .search{
-            margin-left: 1rem;
-        }
+    select{
+        width: 9rem;
     }
-
+    .search{
+        margin-left: 1rem;
+    }
+    .btn:hover{
+        color: white;
+        background-color: #404e5c;
+    }
+  }
+  .alert{
+    position: absolute;
+    right: 0;
+    top: 9rem;
+    opacity: 0;
+    transition: 1.5s all ease-out;
+    z-index: 10;
+  }
+  .alert-opacity{
+    opacity: 1;
+  }
 }

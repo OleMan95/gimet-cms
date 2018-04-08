@@ -31,6 +31,8 @@ export default {
 
 		if(str && srchby){
 			query = `?str=${str}&srchby=${srchby}`;
+		}else{
+			throw new Error('No query found');
 		}
 		console.log('query: ', query);
 

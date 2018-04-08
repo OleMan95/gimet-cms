@@ -1,28 +1,51 @@
 @import '../variables.scss';
-$page-name-margin: 0 1rem;
+$page-name-margin: 0 .5rem 0;
 
 .header{
-    background-color: $default-font-color-black;
-    color: #eaeaea;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    padding: .5rem $default-side-padding-lg;
+  background-color: $default-font-color-black;
+  color: #eaeaea;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 $default-side-padding-lg;
+  height: 3.5rem;
+
+  a{
+    color: white;
+    background-color: inherit;
+  }
+
+  .title{
+    height: 100%;
 
     img{
-        width: 50px;
-        height: 50px;
+      width: 50px;
+      height: 50px;
     }
     h1{
-        margin: 0;
-        font-size: 1.8rem;
+      margin: 0;
+      font-size: 1.8rem;
     }
-    a{
-        color: white;
-        text-decoration: none;
+  }
+
+
+
+
+  .btn-page{
+    font-size: 1rem;
+    height: 100%;
+
+    &:hover{
+      background-color: $primary-color;
     }
-    .page{
-        font-size: 1rem;
-        margin: $page-name-margin;
+  }
+  .btn{
+    background-color: inherit;
+    color: white;
+    height: 100%;
+    border-radius: 0;
+
+    &:hover{
+      background-color: #404e5c;
     }
+  }
 }

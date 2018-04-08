@@ -8,7 +8,11 @@ class Section1 extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			value:''
+			value:'',
+			usersList: [],
+			alert: 'Error!',
+			alertDangerClass: 'd-none',
+			alertInfoClass: 'd-none'
 		};
 	}
 
@@ -16,14 +20,37 @@ class Section1 extends Component {
 		this.setState({value: event.target.value});
 	};
 	onSearchClick= async () => {
+		const str = this.searchInput.value.trim();
 		try {
 			const {data} = await apiHelper.getUsers(
 				cookiesHelper.getCookie('at1'),
-				this.searchInput.value,
-				this.state.value
+				this.state.value,
+				str
 			);
-		} catch (err) {
+
+			if(!data.length>0) this.alertHelper('No users found!');
+
+
+			const users = [];
+			for(let i=0; i<data.length; i++){
+				users.push(
+					<tr key={data[i]._id}>
+						<th scope="row">{i+1}</th>
+						<td>{data[i]._id}</td>
+						<td>{data[i].name}</td>
+						<td>{data[i].email}</td>
+						<td>{data[i].experts.length}</td>
+					</tr>
+				);
+			}
+
+			this.setState({
+				usersList: users
+			});
+
+		}catch (err) {
 			console.log('error: ', err);
+			this.alertHelper(err.message, 'danger');
 		}
 	};
 
@@ -47,9 +74,56 @@ class Section1 extends Component {
 					</div>
 				</div>
 
+				<table className="table table-striped table-hover">
+					<thead className="thead-dark">
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">ID</th>
+						<th scope="col">Name</th>
+						<th scope="col">Email</th>
+						<th scope="col">Experts</th>
+					</tr>
+					</thead>
+					<tbody>
+						{this.state.usersList}
+					</tbody>
+				</table>
 
+				<div className={"alert alert-danger "+this.state.alertDangerClass} role="alert">
+					{this.state.alert}
+				</div>
+				<div className={"alert alert-info "+this.state.alertInfoClass} role="alert">
+					{this.state.alert}
+				</div>
 			</div>
 		);
+	}
+
+	alertHelper=(message, type)=>{
+		if(type === 'danger'){
+			this.setState({
+				alert: message,
+				alertDangerClass: 'alert-opacity'
+			});
+			setTimeout(()=>{
+				this.setState({
+					alert: 'Error!',
+					alertDangerClass: 'd-none'
+				});
+			}, 4000);
+		}else{
+			this.setState({
+				alert: message,
+				alertInfoClass: 'alert-opacity'
+			});
+			setTimeout(()=>{
+				this.setState({
+					alert: 'Error!',
+					alertInfoClass: 'd-none'
+				});
+			}, 4000);
+		}
+
 	}
 }
 

@@ -36,9 +36,9 @@ export default {
 		document.cookie = updatedCookie;
 	},
 
-	deleteCookie(name) {
-		setCookie(name, "", {
-			expires: -1
-		})
-	}
+	// deleteCookie(name) {
+	// 	setCookie(name, "", {
+	// 		expires: -1
+	// 	})
+	// }
 };
