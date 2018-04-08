@@ -2,19 +2,24 @@
 $input-padding: .25rem $default-padding;
 
 html{
-    margin: 0;
-    padding: 0;
-    font-size: 16px;
-    body{
-        margin: 0;
-        padding: 0;
-        display: flex;
-        min-height: 100vh;
-        flex-direction: column;
-      #root{
-        flex: 1;
-      }
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+
+  @media (max-width: 576px) {
+    font-size: 14px;
+  }
+
+  body{
+      margin: 0;
+      padding: 0;
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    #root{
+      flex: 1;
     }
+  }
 }
 
 input{

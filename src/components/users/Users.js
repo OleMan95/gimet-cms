@@ -35,7 +35,7 @@ class Users extends Component {
 		return (
 			<div className="users-page">
 				<Header page={'experts'}/>
-				<div className="content">
+				<div className="container">
 					<Section1 />
 				</div>
 			</div>

@@ -17,15 +17,17 @@ class Header extends Component {
 
 	render() {
 		return (
-      <header className="header d-flex">
-	      <a href={'/'} className={'title d-flex align-items-center'}>
-		      <img src={logo} alt={'logo'}/>
-		      <h1 className="">GIMET CMS</h1>
-	      </a>
+      <header className="header">
+	      <div className="d-flex container">
+		      <a href={'/'} className={'title d-flex align-items-center'}>
+			      <img src={logo} alt={'logo'}/>
+			      <h1 className="">GIMET CMS</h1>
+		      </a>
 
-	      <div className={'h-100 d-flex'}>
-		      <a href={'/'+this.props.page} className="btn btn-page d-flex align-items-center">go to {this.props.page}</a>
-		      <a href="/" className="btn logout d-flex align-items-center" onClick={this.onLogout}>logout</a>
+		      <div className={'h-100 d-flex'}>
+			      <a href={'/'+this.props.page} className="btn btn-page d-flex align-items-center">go to {this.props.page}</a>
+			      <a href="/" className="btn logout d-flex align-items-center" onClick={this.onLogout}>logout</a>
+		      </div>
 	      </div>
       </header>
 		);

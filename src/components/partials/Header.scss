@@ -4,11 +4,14 @@ $page-name-margin: 0 .5rem 0;
 .header{
   background-color: $default-font-color-black;
   color: #eaeaea;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 $default-side-padding-lg;
+  //padding: 0 $default-side-padding-lg;
   height: 3.5rem;
 
+  .container{
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
   a{
     color: white;
     background-color: inherit;
@@ -24,6 +27,10 @@ $page-name-margin: 0 .5rem 0;
     h1{
       margin: 0;
       font-size: 1.8rem;
+
+      @media (max-width: 576px) {
+        font-size: 1rem;
+      }
     }
   }
 
