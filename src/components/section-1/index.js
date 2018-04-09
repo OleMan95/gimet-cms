@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Section2 from "../section-2";
 import cookiesHelper from "../services/cookies-helper";
 import apiHelper from "../services/api-helper";
 import './index.scss';
@@ -12,7 +13,9 @@ class Section1 extends Component {
 			usersList: [],
 			alert: 'Error!',
 			alertDangerClass: 'd-none',
-			alertInfoClass: 'd-none'
+			alertInfoClass: 'd-none',
+			showModal: '',
+			modalObject: {}
 		};
 	}
 
@@ -34,7 +37,7 @@ class Section1 extends Component {
 			const users = [];
 			for(let i=0; i<data.length; i++){
 				users.push(
-					<tr key={data[i]._id}>
+					<tr key={data[i]._id} onClick={()=>this.onUserClick(data[i]._id)}>
 						<th scope="row">{i+1}</th>
 						<td>{data[i]._id}</td>
 						<td>{data[i].name}</td>
@@ -52,6 +55,36 @@ class Section1 extends Component {
 			console.log('error: ', err);
 			this.alertHelper(err.message, 'danger');
 		}
+	};
+
+	onUserClick= async (id) => {
+		try{
+
+			console.log(id);
+			const {data} = await apiHelper.getUserData(
+				cookiesHelper.getCookie('at1'),
+				id
+			);
+
+			console.log('modalObject: ',data);
+
+			this.setState({
+				modalObject: {
+					type: 'user',
+					data
+				},
+				showModal: 'show'
+			});
+		}catch(err){
+			console.log('Error: ',err);
+			this.alertHelper(err.message, 'danger');
+		}
+
+	};
+	onModalCloseClick=()=>{
+		this.setState({
+			showModal: ''
+		});
 	};
 
 	render() {
@@ -95,6 +128,9 @@ class Section1 extends Component {
 				<div className={"alert alert-info "+this.state.alertInfoClass} role="alert">
 					{this.state.alert}
 				</div>
+
+				<Section2 showModal={this.state.showModal} onCloseClick={this.onModalCloseClick}
+				          modalObject={this.state.modalObject}/>
 			</div>
 		);
 	}
