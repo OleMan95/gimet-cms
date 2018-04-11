@@ -15,8 +15,12 @@ class Login extends Component {
 	}
 
 	async componentDidMount() {
-		if(cookiesHelper.getCookie('at1')) {
+		try{
+			const {data} = await apiHelper.getUserData(cookiesHelper.getCookie('at1'));
+			console.log('isAdmin: ', data.isAdmin);
+
 			this.props.history.push('/users');
+		}catch(err){
 		}
 	}
 
