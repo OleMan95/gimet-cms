@@ -7,24 +7,25 @@ import uniqueValidator from 'mongoose-unique-validator';
 mongoose.plugin(uniqueValidator);
 
 const UserSchema = new Schema({
-    name:{
-        type:String,
-        required:'Name is required'
-    },
-    email:{
-        type:String,
-        lowercase:true,
-        required:'Email is required'
-    },
-    password:{
-        type:String,
-        required:'Password is required'
-    },
-    isAdmin: Boolean,
-    experts:[{
-        type: Schema.ObjectId,
-        ref: 'Expert'
-    }]
+  name:{
+    type:String,
+    required:'Name is required'
+  },
+  email:{
+    type:String,
+    lowercase:true,
+    required:'Email is required'
+  },
+  password:{
+    type:String,
+    required:'Password is required'
+  },
+  isAdmin: Boolean,
+	isConfirmed: Boolean,
+	experts:[{
+    type: Schema.ObjectId,
+    ref: 'Expert'
+  }]
 },{timestamps:true});
 UserSchema.index({name: 'text', email: 'text'});
 

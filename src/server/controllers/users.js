@@ -99,10 +99,12 @@ class Users{
 	//PUT /users
 	async update(req, res){
 		const {authorization} = req.headers;
+		console.log('req.query.id: ',req.query.id);
+
 		try{
 			const payload = await jwtService.verify(authorization);
 			console.log('payload: ',payload);
-			const id = ObjectId(payload._id);
+			const id = req.query.id || ObjectId(payload._id);
 			const data = req.body;
 
 			res.send(await User.findByIdAndUpdate(id, data, {new:true}).select({password:0, __v: 0}));
