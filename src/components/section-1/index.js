@@ -15,7 +15,8 @@ class Section1 extends Component {
 			alertDangerClass: 'd-none',
 			alertInfoClass: 'd-none',
 			showModal: '',
-			modalObject: {}
+			modalObject: {},
+
 		};
 	}
 
@@ -59,17 +60,20 @@ class Section1 extends Component {
 
 	onUserClick= async (id) => {
 		try{
+
 			const {data} = await apiHelper.getUserData(
 				cookiesHelper.getCookie('at1'),
 				id
 			);
 
+			console.log('onUserClick', data);
+
 			this.setState({
-				modalObject: {
-					type: 'user',
-					data
-				},
-				showModal: 'show'
+				showModal: (
+					<Section2 onCloseClick={this.onModalCloseClick}
+					          onSubmitClick={this.props.onSubmitClick}
+					          modalObject={{type: 'user',data: data}}/>
+				)
 			});
 		}catch(err){
 			console.log('Error: ',err);
@@ -125,10 +129,8 @@ class Section1 extends Component {
 					{this.state.alert}
 				</div>
 
-				<Section2 showModal={this.state.showModal}
-				          onCloseClick={this.onModalCloseClick}
-				          onSubmitClick={this.props.onSubmitClick}
-				          modalObject={this.state.modalObject}/>
+				{this.state.showModal}
+
 			</div>
 		);
 	}
