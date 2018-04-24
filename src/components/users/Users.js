@@ -31,12 +31,23 @@ class Users extends Component {
 
 	}
 
+	onSubmitClick= async (id, user) => {
+
+		const {data} = await apiHelper.updateUser(
+			cookiesHelper.getCookie('at1'),
+			id,
+			user
+		);
+
+		return data;
+	};
+
 	render() {
 		return (
 			<div className="users-page">
 				<Header page={'experts'}/>
 				<div className="container">
-					<Section1 />
+					<Section1 onSubmitClick={this.onSubmitClick} />
 				</div>
 			</div>
 		);

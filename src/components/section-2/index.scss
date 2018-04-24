@@ -22,9 +22,19 @@ $page-name-margin: 0 1rem;
         margin: 0;
       }
     }
+
+    tbody{
+      tr{
+        cursor: initial;
+      }
+    }
+
   }
   .show{
     display: block;
+  }
+  .alert{
+    z-index: 9999;
   }
 
 }

@@ -8,19 +8,24 @@ class Section2 extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			modalBody: ''
-		};
-	}
+			modalBody: '',
+			dataToSave: 'yeah!',
+			alert: 'Error!',
+			alertDangerClass: 'd-none',
+			alertInfoClass: 'd-none',
+		}
+	};
 
 	onModalOpen=()=>{
 		try{
 			const data = this.props.modalObject.data;
 			const isAdmin = data.isAdmin ? 'true' : 'false';
+			const isConfirmed = data.isConfirmed ? 'true' : 'false';
 			const experts = [];
 
 			data.experts.forEach((expert)=>{
 				experts.push(
-					<a className="row" href="">{expert}</a>
+					<a className="row" href="" key={expert}>{expert}</a>
 				);
 			});
 
@@ -29,29 +34,44 @@ class Section2 extends Component {
 					<tbody key={data._id}>
 						<tr>
 							<td>_id</td>
-							<td>{data._id}</td>
+							<td ref={()=>{this.id=data._id}}>{data._id}</td>
 						</tr>
 						<tr>
 							<td>name</td>
 							<td>
-								<input type="text" className="form-control" placeholder={data.name}/>
+								<input type="text" className="form-control" defaultValue={data.name} ref={elem=>{this.nameInput=elem}}/>
 							</td>
 						</tr>
 						<tr>
 							<td>email</td>
 							<td>
-								<input type="email" className="form-control" placeholder={data.email}/>
+								<input type="email" className="form-control" defaultValue={data.email} ref={elem=>{this.emailInput=elem}}/>
 							</td>
 						</tr>
 						<tr>
 							<td>isAdmin</td>
 							<td>
-								<input type="text" className="form-control" placeholder={isAdmin}/>
+								<input type="text" className="form-control" defaultValue={isAdmin} ref={elem=>{this.isAdminInput=elem}}/>
+							</td>
+						</tr>
+						<tr>
+							<td>isConfirmed</td>
+							<td>
+								<input type="text" className="form-control" defaultValue={isConfirmed} ref={elem=>{this.isConfirmedInput=elem}}/>
 							</td>
 						</tr>
 						<tr>
 							<td>experts</td>
-							<td><div>{experts}</div></td>
+							<td>
+								<div className='input-group mb-3'>
+									<input className="form-control" type='text' placeholder={'Add new expert'} ref={elem=>{this.addExpertInput=elem}}/>
+									<div className="input-group-append">
+										<button className="btn btn-outline-secondary" type="button"
+										        onClick={this.addExpertClick}>+</button>
+									</div>
+								</div>
+								<div>{experts}</div>
+							</td>
 						</tr>
 					</tbody>
 				);
@@ -75,6 +95,45 @@ class Section2 extends Component {
 	onModalClick=(event)=>{
 		// handles the parent element click and stop that
 		event.stopPropagation();
+	};
+
+	onSubmitClick= async () => {
+		console.log('isAdmin: ', this.isAdminInput.value);
+		console.log('isAdminInput: ', this.isAdminInput.value.indexOf('true'));
+
+		try{
+			let dataToSave = {};
+			if (this.props.modalObject.type === 'user') {
+
+				let isAdmin = this.isAdminInput.value.indexOf('true') > -1;
+				let isConfirmed = this.isConfirmedInput.value.indexOf('true') > -1;
+
+				dataToSave.name = this.nameInput.value.length > 0 ? this.nameInput.value : this.makeError();
+				dataToSave.email = this.emailInput.value.length > 0 ? this.emailInput.value : this.makeError();
+				dataToSave.isAdmin = isAdmin;
+				dataToSave.isConfirmed = isConfirmed;
+			}
+
+			let response = await this.props.onSubmitClick(this.id, dataToSave);
+
+			if(response._id == this.id){
+				this.alertHelper('Success! ');
+				this.props.onCloseClick();
+			}
+
+		}catch(err){
+			console.log('Error: ', err);
+			this.alertHelper(err.message, 'danger');
+		}
+
+	};
+
+	makeError=()=>{
+		throw new Error('Fill the fields correctly');
+	};
+
+	addExpertClick=()=>{
+
 	};
 
 
@@ -104,12 +163,20 @@ class Section2 extends Component {
 							</div>
 
 							<div className="modal-footer">
-								<button type="button" className="btn btn-primary">Save changes</button>
+								<button type="button" onClick={this.onSubmitClick} className="btn btn-primary">Save changes</button>
 								<button type="button" onClick={this.props.onCloseClick} className="btn btn-secondary" data-dismiss="modal">Close</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
+				<div className={"alert alert-danger "+this.state.alertDangerClass} role="alert">
+					{this.state.alert}
+				</div>
+				<div className={"alert alert-info "+this.state.alertInfoClass} role="alert">
+					{this.state.alert}
+				</div>
+
 			</div>
 		);
 	}

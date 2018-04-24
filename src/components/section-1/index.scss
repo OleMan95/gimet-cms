@@ -16,6 +16,12 @@ $page-name-margin: 0 1rem;
         background-color: #404e5c;
     }
   }
+
+  tbody{
+    tr{
+      cursor: pointer;
+    }
+  }
   .alert{
     position: absolute;
     right: 0;

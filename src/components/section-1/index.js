@@ -59,14 +59,10 @@ class Section1 extends Component {
 
 	onUserClick= async (id) => {
 		try{
-
-			console.log(id);
 			const {data} = await apiHelper.getUserData(
 				cookiesHelper.getCookie('at1'),
 				id
 			);
-
-			console.log('modalObject: ',data);
 
 			this.setState({
 				modalObject: {
@@ -129,7 +125,9 @@ class Section1 extends Component {
 					{this.state.alert}
 				</div>
 
-				<Section2 showModal={this.state.showModal} onCloseClick={this.onModalCloseClick}
+				<Section2 showModal={this.state.showModal}
+				          onCloseClick={this.onModalCloseClick}
+				          onSubmitClick={this.props.onSubmitClick}
 				          modalObject={this.state.modalObject}/>
 			</div>
 		);

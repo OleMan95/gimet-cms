@@ -49,4 +49,28 @@ export default {
 		return {res, data};
 	},
 
+	async updateUser(token, userId, user) {
+		let query = '';
+
+		if(userId){
+			query = `?id=${userId}`;
+		}else{
+			throw new Error('No query found');
+		}
+
+		const res = await fetch('/v1/user'+query, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': token
+			},
+			body: JSON.stringify(user)
+		});
+		if(!res.ok) throw new Error('status: '+res.status);
+		const data = await res.json();
+
+		console.log('data: ', data);
+		return {res, data};
+	},
+
 };
