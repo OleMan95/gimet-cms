@@ -1,5 +1,8 @@
-const mongoose = require('mongoose');
-const CONNECTION_URL = "mongodb://admin:Oleman9291@ds247077.mlab.com:47077/gimet_db";
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const CONNECTION_URL = process.env.DB_HOST;
 
 mongoose.Promise = Promise;
 mongoose.set('debug', true);
