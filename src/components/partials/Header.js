@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import logo from "../../data/logo.svg";
 import cookiesHelper from "../services/cookies-helper";
 import './Header.scss';
@@ -25,7 +26,7 @@ class Header extends Component {
 		      </a>
 
 		      <div className={'h-100 d-flex'}>
-			      <a href={'/'+this.props.page} className="btn btn-page d-flex align-items-center">go to {this.props.page}</a>
+			      <Link to={'/'+this.props.page} className="btn btn-page d-flex align-items-center">go to {this.props.page}</Link>
 			      <a href="/" className="btn logout d-flex align-items-center" onClick={this.onLogout}>logout</a>
 		      </div>
 	      </div>

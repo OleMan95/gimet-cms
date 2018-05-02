@@ -13,16 +13,17 @@ router.get('/v1/message', async (req, res) => {
 });
 
 router.get('*', (req, res)=>{
+  let context = {};
 	// if above are no routes has been found - page routes searching here
-	const murkup = renderToString(
-		<StaticRouter location={req.url}>
+	const body = renderToString(
+		<StaticRouter location={req.url} context={context}>
 			<App />
 		</StaticRouter>
 	);
 	const footer = renderToString(<Footer />);
 
 	res.send(template({
-		body: murkup,
+		body: body,
 		footer: footer,
 		title: 'GIMET-CMS'
 	}));

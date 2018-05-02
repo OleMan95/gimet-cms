@@ -2,9 +2,13 @@ const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const path = require('path');
+
+const clientPath = path.join(__dirname, '/src/browser/index.js');
+const serverPath = path.join(__dirname, '/src/server/index.js');
 
 const clientConfig = {
-	entry: "./src/browser/index.js",
+	entry: clientPath,
 	output: {
 		path: __dirname,
 		filename: "./public/bundle.js"
@@ -75,7 +79,7 @@ const clientConfig = {
 };
 
 const serverConfig = {
-	entry: "./src/server/index.js",
+	entry: serverPath,
 	target: "node",
 	output: {
 		path: __dirname,
