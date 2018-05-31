@@ -47,7 +47,7 @@ class Users extends Component {
 			<div className="users-page">
 				<Header page={'experts'}/>
 				<div className="container">
-					<Section1 onSubmitClick={this.onSubmitClick} />
+					<Section1 onSubmitClick={this.onSubmitClick} isUser={true}/>
 				</div>
 			</div>
 		);

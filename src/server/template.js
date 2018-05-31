@@ -3,6 +3,7 @@ import {renderToString} from "react-dom/server";
 export default ({footer, body, title }) => {
 	return `
     <!DOCTYPE html>
+
 		<html lang="en">
 			<head>
 			    <meta charset="UTF-8">
@@ -17,6 +18,7 @@ export default ({footer, body, title }) => {
 				<div id="root">${body}</div>
 				${footer}
 			</body>
+
 		</html>
   `;
 };

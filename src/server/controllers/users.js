@@ -12,7 +12,6 @@ class Users{
 		const {authorization} = req.headers;
 		try{
 			const payload = await jwtService.verify(authorization);
-			console.log('payload: ',payload);
 
 			const {str, srchby} = req.query;
 			if(str && srchby){

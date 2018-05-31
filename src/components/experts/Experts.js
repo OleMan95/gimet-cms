@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../partials/Header';
+import Section1 from '../section-1';
 import './Experts.scss';
 
 class Experts extends Component {
@@ -25,14 +26,9 @@ class Experts extends Component {
 		return (
 			<div className="experts-page">
         <Header page={'users'}/>
-        <div className="content">
-	        <p>Experts</p>
-	        {
-		        this.state.experts.map(function(expert, i){
-			        return <li key={i}>{expert.name}</li>
-		        })
-	        }
-        </div>
+				<div className="container">
+					<Section1 onSubmitClick={this.onSubmitClick} isExpert={true}/>
+				</div>
 			</div>
 		);
 	}

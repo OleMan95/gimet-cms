@@ -10,13 +10,12 @@ class Section1 extends Component {
 		super(props);
 		this.state = {
 			value:'',
-			usersList: [],
+			dataList: [],
 			alert: 'Error!',
 			alertDangerClass: 'd-none',
 			alertInfoClass: 'd-none',
 			showModal: '',
 			modalObject: {},
-
 		};
 	}
 
@@ -25,32 +24,55 @@ class Section1 extends Component {
 	};
 	onSearchClick= async () => {
 		const str = this.searchInput.value.trim();
+		const dataList = [];
+
 		try {
-			const {data} = await apiHelper.getUsers(
-				cookiesHelper.getCookie('at1'),
-				this.state.value,
-				str
-			);
+			if(this.props.isUser){
 
-			if(!data.length>0) this.alertHelper('No users found!');
-
-
-			const users = [];
-			for(let i=0; i<data.length; i++){
-				users.push(
-					<tr key={data[i]._id} onClick={()=>this.onUserClick(data[i]._id)}>
-						<th scope="row">{i+1}</th>
-						<td>{data[i]._id}</td>
-						<td>{data[i].name}</td>
-						<td>{data[i].email}</td>
-						<td>{data[i].experts.length}</td>
-					</tr>
+				const {data} = await apiHelper.getUsers(
+					cookiesHelper.getCookie('at1'),
+					this.state.value,
+					str
 				);
+
+				if(!data.length>0) this.alertHelper('No users found!');
+
+				for(let i=0; i<data.length; i++){
+					dataList.push(
+						<tr key={data[i]._id} onClick={()=>this.onUserClick(data[i]._id)}>
+							<th scope="row">{i+1}</th>
+							<td>{data[i]._id}</td>
+							<td>{data[i].name}</td>
+							<td>{data[i].email}</td>
+							<td>{data[i].experts.length}</td>
+						</tr>
+					);
+				}
+			}
+			if(this.props.isExpert){
+				const {data} = await apiHelper.getExperts(
+					cookiesHelper.getCookie('at1'),
+					this.state.value,
+					str
+				);
+
+				if(!data.length>0) this.alertHelper('No users found!');
+
+				for(let i=0; i<data.length; i++){
+					dataList.push(
+						<tr key={data[i]._id} onClick={()=>this.onExpertClick(data[i]._id)}>
+							<th scope="row">{i+1}</th>
+							<td>{data[i]._id}</td>
+							<td>{data[i].name}</td>
+							<td>{data[i].author}</td>
+							<td>{data[i].questions.length}</td>
+							<td>{data[i].contributors.length}</td>
+						</tr>
+					);
+				}
 			}
 
-			this.setState({
-				usersList: users
-			});
+			this.setState({dataList});
 
 		}catch (err) {
 			console.log('error: ', err);
@@ -75,6 +97,15 @@ class Section1 extends Component {
 					          modalObject={{type: 'user',data: data}}/>
 				)
 			});
+		}catch(err){
+			console.log('Error: ',err);
+			this.alertHelper(err.message, 'danger');
+		}
+
+	};
+	onExpertClick= async (id) => {
+		try{
+			console.log(id);
 		}catch(err){
 			console.log('Error: ',err);
 			this.alertHelper(err.message, 'danger');
@@ -107,20 +138,43 @@ class Section1 extends Component {
 					</div>
 				</div>
 
-				<table className="table table-striped table-hover">
-					<thead className="thead-dark">
-					<tr>
-						<th scope="col">#</th>
-						<th scope="col">ID</th>
-						<th scope="col">Name</th>
-						<th scope="col">Email</th>
-						<th scope="col">Experts</th>
-					</tr>
-					</thead>
-					<tbody>
-						{this.state.usersList}
-					</tbody>
-				</table>
+				{this.props.isUser ?
+					<table className="table table-striped table-hover">
+						<thead className="thead-dark">
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">ID</th>
+							<th scope="col">Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Experts</th>
+						</tr>
+						</thead>
+						<tbody>
+						{this.state.dataList}
+						</tbody>
+					</table>
+					: ''
+				}
+
+				{this.props.isExpert ?
+					<table className="table table-striped table-hover">
+						<thead className="thead-dark">
+						<tr>
+							<th scope="col-1">#</th>
+							<th scope="col-3">ID</th>
+							<th scope="col-3">Name</th>
+							<th scope="col-3">Author</th>
+							<th scope="col-1">Questions</th>
+							<th scope="col-1">Contributors</th>
+						</tr>
+						</thead>
+						<tbody>
+						{this.state.dataList}
+						</tbody>
+					</table>
+					: ''
+				}
+
 
 				<div className={"alert alert-danger "+this.state.alertDangerClass} role="alert">
 					{this.state.alert}
@@ -163,8 +217,10 @@ class Section1 extends Component {
 	}
 }
 
-// Section1.propTypes = {
-// 	page: PropTypes.string
-// };
+Section1.propTypes = {
+	isUser: PropTypes.bool,
+	isExpert: PropTypes.bool,
+	onSubmitClick: PropTypes.func
+};
 
 export default Section1;

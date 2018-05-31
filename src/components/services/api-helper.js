@@ -73,4 +73,28 @@ export default {
 		return {res, data};
 	},
 
+	async getExperts(token, srchby, str) {
+		let query = '';
+
+		if(str && srchby){
+			query = `?str=${str}&srchby=${srchby}`;
+		}else{
+			throw new Error('No query found');
+		}
+
+		const res = await fetch('/v1/experts'+query, {
+			method: 'get',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': token
+			}
+		});
+
+		const data = await res.json();
+
+		if(!res.ok) throw new Error('Error: '+data.message);
+
+		console.log('data: ', data);
+		return {res, data};
+	},
 };

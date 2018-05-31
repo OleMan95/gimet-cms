@@ -7,6 +7,7 @@ import logger from "morgan";
 import cookieParser from 'cookie-parser';
 
 import routes from "./routes/index"
+import experts from "./routes/experts"
 import users from "./routes/users"
 import "./services/telegram-bot"
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({msExtendedCode: false}));
 app.use(express.static('public'));
 
+app.use('/v1', experts);
 app.use('/v1', users);
 app.use('/', routes);
 
