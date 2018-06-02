@@ -4,6 +4,7 @@ $page-name-margin: 0 1rem;
 .section-2{
   .modal{
     background-color: #2229;
+    overflow-y: auto;
 
     .modal-dialog{
       max-width: 50%;

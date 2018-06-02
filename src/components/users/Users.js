@@ -16,7 +16,7 @@ class Users extends Component {
 	async componentDidMount() {
 		try{
 			//token not found
-			const {data} = await apiHelper.getUserData(cookiesHelper.getCookie('at1'));
+			const {data} = await apiHelper.getAdminData(cookiesHelper.getCookie('at1'));
 
 			console.log('isAdmin: ', data.isAdmin);
 			// forbidden to signin
@@ -25,7 +25,7 @@ class Users extends Component {
 				this.props.history.push('/');
 			}
 		}catch(err){
-			alert('Forbidden! Try again later.');
+			alert(err.message);
 			this.props.history.push('/');
 		}
 

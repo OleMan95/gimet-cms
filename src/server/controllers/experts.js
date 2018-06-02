@@ -26,10 +26,10 @@ class Experts{
 	//GET /v1/experts/:id
 	async findById(req, res){
 		try{
-			if(!req.cookies.aat || req.cookies.aat != 'true'){
-				res.status(400).send({message:'Rejected'});
-				return;
-			}
+			// if(!req.cookies.aat || req.cookies.aat != 'true'){
+			// 	res.status(400).send({message:'Rejected'});
+			// 	return;
+			// }
 			// const {authorization} = req.headers;
 			// const payload = await jwtService.verify(authorization);
 			// const authorId = payload._id;
@@ -45,17 +45,12 @@ class Experts{
 			res.status(403).send({message: err.message});
 		}
 	}
-	//POST /v1/experts or PUT /experts/:id
+	//POST or PUT /v1/experts
 	async createOrUpdate(req, res){
 		try{
-			if(!req.cookies.aat || req.cookies.aat != 'true'){
-				res.status(400).send({message:'Rejected'});
-				return;
-			}
-
 			const payload = await jwtService.verify(req.headers.authorization);
 			const user = await User.findById(payload._id);
-			const {id} = req.params;
+			const {id} = req.query;
 			const {name, description, questions, contributors} = req.body;
 			const author = req.body.author ? req.body.author : user._id;
 
@@ -66,6 +61,7 @@ class Experts{
 			if(id){
 				Expert.findByIdAndUpdate(id, { $set: {name, description, questions, author, contributors}}, { new: true }, function (err, expert) {
 					if (err) console.log('err: ', err);
+
 					res.send(expert);
 				});
 			}else{

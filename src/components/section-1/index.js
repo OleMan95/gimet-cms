@@ -19,10 +19,14 @@ class Section1 extends Component {
 		};
 	}
 
+	componentDidMount(){
+		this.selectElem.selectedIndex = 0;
+	}
+
 	handleChange=(event)=>{
 		this.setState({value: event.target.value});
 	};
-	onSearchClick= async () => {
+	onSearchClick = async () => {
 		const str = this.searchInput.value.trim();
 		const dataList = [];
 
@@ -75,20 +79,14 @@ class Section1 extends Component {
 			this.setState({dataList});
 
 		}catch (err) {
-			console.log('error: ', err);
+			console.log('error: ', err.message);
 			this.alertHelper(err.message, 'danger');
 		}
 	};
 
-	onUserClick= async (id) => {
+	onUserClick = async(id) => {
 		try{
-
-			const {data} = await apiHelper.getUserData(
-				cookiesHelper.getCookie('at1'),
-				id
-			);
-
-			console.log('onUserClick', data);
+			const {data} = await apiHelper.getUserData(id,false);
 
 			this.setState({
 				showModal: (
@@ -103,9 +101,18 @@ class Section1 extends Component {
 		}
 
 	};
-	onExpertClick= async (id) => {
+	onExpertClick = async(id) => {
 		try{
-			console.log(id);
+			const {data} = await apiHelper.getExpertData(id,true);
+
+			this.setState({
+				showModal: (
+					<Section2 onCloseClick={this.onModalCloseClick}
+					          onSubmitClick={this.props.onSubmitClick}
+					          modalObject={{type: 'expert',data: data}}/>
+				)
+			});
+
 		}catch(err){
 			console.log('Error: ',err);
 			this.alertHelper(err.message, 'danger');
@@ -118,17 +125,40 @@ class Section1 extends Component {
 		});
 	};
 
+
 	render() {
 		return (
 			<div className="section-1">
         <div className="head d-flex justify-content-between">
-          <select className="custom-select" value={this.state.value}
-                  onChange={this.handleChange}>
-	          <option value="" disabled hidden>Search by:</option>
-	          <option value="email">email</option>
-            <option value="name">name</option>
-            <option value="id">id</option>
-					</select>
+
+	        <select className="custom-select" value={this.state.value}
+	                onChange={this.handleChange} ref={elem=>this.selectElem=elem}>
+		        <option value="" disabled hidden>Search by:</option>
+
+		        {this.props.isUser ?
+			        [
+			        	<option key={"isuser-email"} value="email">email</option>,
+			          <option key={"isuser-name"} value="name">name</option>,
+				        <option key={"isuser-id"} value="id">id</option>
+			        ]
+			        : ''
+		        }
+
+		        {this.props.isExpert ?
+			        [
+			          <option key={"isexpert-id"} value="id">expert id</option>,
+			          <option key={"isexpert-name"} value="name">expert name</option>,
+				        <option key={"isexpert-author-id"} value="author-id">author id</option>,
+				        <option key={"isexpert-author-name"} value="author-name">author name</option>,
+				        <option key={"isexpert-contributor-id"} value="contributor-id">contributor id</option>,
+				        <option key={"isexpert-contributor-name"} value="contributor-name">contributor name</option>
+			        ]
+			        : ''
+		        }"
+
+
+	        "</select>
+
           <div className='search input-group mb-3'>
             <input className="form-control" type='text' ref={elem=>{this.searchInput=elem}}/>
 	          <div className="input-group-append">

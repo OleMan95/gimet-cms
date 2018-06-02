@@ -13,6 +13,7 @@ class Section2 extends Component {
 			alertDangerClass: 'd-none',
 			alertInfoClass: 'd-none',
 			userExperts: [],
+			expertsContributors: [],
 			id: '',
 			tableBody: (
 				<tr>
@@ -28,15 +29,16 @@ class Section2 extends Component {
 
 		try {
 			const data = this.props.modalObject.data;
-			const isAdmin = data.isAdmin ? 'true' : 'false';
-			const isConfirmed = data.isConfirmed ? 'true' : 'false';
-
-			this.setState({
-				userExperts: data.experts,
-				id: data._id
-			});
 
 			if (this.props.modalObject.type === 'user') {
+				const isAdmin = data.isAdmin ? 'true' : 'false';
+				const isConfirmed = data.isConfirmed ? 'true' : 'false';
+
+				await this.setState({
+					userExperts: data.experts,
+					id: data._id
+				});
+
 				tableBody = [
 					<tr key={'1'}>
 						<td>_id</td>
@@ -77,7 +79,35 @@ class Section2 extends Component {
 				];
 			}
 			if (this.props.modalObject.type === 'expert') {
+				await this.setState({
+					expertsContributors: data.contributors,
+					id: data._id
+				});
 
+				tableBody = [
+					<tr key={'1'}>
+						<td>_id</td>
+						<td>{data._id}</td>
+					</tr>,
+					<tr key={'2'}>
+						<td>name</td>
+						<td>
+							<input type="text" className="form-control" defaultValue={data.name}
+							       ref={elem=>{this.nameInput = elem}}/>
+						</td>
+					</tr>,
+					<tr key={'3'}>
+						<td>description</td>
+						<td>
+							<textarea className="form-control" defaultValue={data.description}
+							       ref={elem=>{this.descriptionInput = elem}}/>
+						</td>
+					</tr>,
+					<tr key={'4'}>
+						<td>author</td>
+						<td>{data.author}</td>
+					</tr>
+				];
 			}
 		} catch (err) {
 			console.log('err: ', err.message);
@@ -106,7 +136,6 @@ class Section2 extends Component {
 		});
 		this.props.onCloseClick();
 	};
-
 	onModalClick=(event)=>{
 		// handles the parent element click and stop that
 		event.stopPropagation();
@@ -117,7 +146,6 @@ class Section2 extends Component {
 		try{
 			let dataToSave = {};
 			if (this.props.modalObject.type === 'user') {
-
 				let isAdmin = this.isAdminInput.value.indexOf('true') > -1;
 				let isConfirmed = this.isConfirmedInput.value.indexOf('true') > -1;
 				let experts = this.state.userExperts;
@@ -127,9 +155,15 @@ class Section2 extends Component {
 				dataToSave.isAdmin = isAdmin;
 				dataToSave.isConfirmed = isConfirmed;
 				dataToSave.experts = experts;
+			}
+			if (this.props.modalObject.type === 'expert') {
+				let contributors = this.state.expertsContributors;
 
-				console.log('dataToSave experts: ', experts);
-
+				dataToSave.name = this.nameInput.value.length > 0 ? this.nameInput.value : this.makeError();
+				dataToSave.description = this.descriptionInput.value.length > 0 ? this.descriptionInput.value : this.makeError();
+				dataToSave.contributors = contributors;
+				dataToSave.author = this.props.modalObject.data.author;
+				dataToSave.questions = this.props.modalObject.data.questions;
 			}
 
 			let response = await this.props.onSubmitClick(this.state.id, dataToSave);
@@ -149,6 +183,27 @@ class Section2 extends Component {
 		throw new Error('Fill the fields correctly');
 	};
 
+	addContributorClick=()=>{
+		let contributors = this.state.expertsContributors;
+		contributors.push(this.addContributorsInput.value);
+
+		this.setState({
+			expertsContributors: contributors,
+		});
+		this.addContributorsInput.value = '';
+	};
+	deleteContributorClick=(elem)=>{
+		let contributors = this.state.expertsContributors;
+
+		contributors = contributors.filter((exp)=>{
+			return exp != elem.target.id;
+		});
+
+		this.setState({
+			expertsContributors: contributors,
+		});
+	};
+
 	addExpertClick=()=>{
 		let experts = this.state.userExperts;
 		experts.push(this.addExpertInput.value);
@@ -156,6 +211,8 @@ class Section2 extends Component {
 		this.setState({
 			userExperts: experts,
 		});
+		this.addExpertInput.value = '';
+
 	};
 	deleteExpertClick=(elem)=>{
 		console.log('experts: ',elem.target.id);
@@ -196,30 +253,56 @@ class Section2 extends Component {
 								{this.props.modalObject.data ?
 									<tbody>
 									{this.state.tableBody}
-									<tr>
-										<td>experts</td>
-										<td>
-											<div className='input-group mb-3'>
-												<input className="form-control" type='text' placeholder={'Add new expert'} ref={elem => {
-													this.addExpertInput = elem
-												}}/>
-												<div className="input-group-append">
-													<button className="btn btn-outline-secondary" type="button"
-													        onClick={this.addExpertClick}>+
-													</button>
+
+									{this.props.modalObject.type === 'user' ?
+										<tr key={'6'}>
+											<td>experts</td>
+											<td>
+												<div className='input-group mb-3'>
+													<input className="form-control" type='text' placeholder={'Add new expert'}
+													       ref={elem=>{this.addExpertInput=elem}}/>
+													<div className="input-group-append">
+														<button className="btn btn-outline-secondary" type="button"
+														        onClick={this.addExpertClick}>+
+														</button>
+													</div>
 												</div>
-											</div>
-											{this.state.userExperts.map((expert, index)=>
-												<div key={expert}>
-													<a href="">{expert}</a>
-													<button className="btn btn-outline-secondary" type="button" id={expert}
-													        onClick={(elem)=>{this.deleteExpertClick(elem)}}>x
-													</button>
-													<br/>
+												{this.state.userExperts.map((expert, index)=>
+													<div key={expert}>
+														<a href="">{expert}</a>
+														<button className="btn btn-secondary" type="button" id={expert}
+														        onClick={(elem)=>{this.deleteExpertClick(elem)}}>x
+														</button>
+														<br/>
+													</div>
+												)}
+											</td>
+										</tr>
+										:
+										<tr key={'5'}>
+											<td>contributors</td>
+											<td>
+												<div className='input-group mb-3'>
+													<input className="form-control" type='text' placeholder={'Add new contributor'}
+													       ref={elem=>{this.addContributorsInput=elem}}/>
+													<div className="input-group-append">
+														<button className="btn btn-outline-secondary" type="button"
+														        onClick={this.addContributorClick}>+
+														</button>
+													</div>
 												</div>
-											)}
-										</td>
-									</tr>
+												{this.state.expertsContributors.map((contributor, index)=>
+													<div key={contributor}>
+														<a href="">{contributor}</a>
+														<button className="btn btn-secondary" type="button" id={contributor}
+														        onClick={(elem)=>{this.deleteContributorClick(elem)}}>x
+														</button>
+														<br/>
+													</div>
+												)}
+											</td>
+										</tr>
+									}
 									</tbody>
 									:
 									<tbody>

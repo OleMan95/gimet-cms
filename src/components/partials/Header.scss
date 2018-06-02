@@ -2,7 +2,7 @@
 $page-name-margin: 0 .5rem 0;
 
 .header{
-  background-color: $default-font-color-black;
+  background-color: $default-color-black;
   color: #eaeaea;
   //padding: 0 $default-side-padding-lg;
   height: 3.5rem;
@@ -41,8 +41,12 @@ $page-name-margin: 0 .5rem 0;
     font-size: 1rem;
     height: 100%;
 
-    &:hover{
+    &.active{
       background-color: $primary-color;
+    }
+
+    &:hover{
+      background-color: $weldon-blue;
     }
   }
   .btn{
@@ -52,7 +56,7 @@ $page-name-margin: 0 .5rem 0;
     border-radius: 0;
 
     &:hover{
-      background-color: #404e5c;
+      background-color: $weldon-blue;
     }
   }
 }

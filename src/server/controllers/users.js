@@ -22,7 +22,7 @@ class Users{
 			}
 
 		}catch(err){
-			res.status(403).send({ error: err});
+			res.status(403).send({ message: err});
 		}
 	}
 	//POST /auth/signin
@@ -67,12 +67,26 @@ class Users{
 			res.status(400).send({ error: err});
 		}
 	}
+	//GET /user/:id
+	async findOnePublic(req, res){
+		try{
+			const id = req.params.id;
+
+			if(req.query.populate){
+				res.send(await User.findById(id).select({password:0, __v: 0}).populate('experts'));
+			}else{
+				res.send(await User.findById(id).select({password:0, __v: 0}));
+			}
+		}catch(err){
+			res.status(403).send({ message: err});
+		}
+	}
 	//GET /user
 	async findOne(req, res){
 		const {authorization} = req.headers;
 		try{
 			const payload = await jwtService.verify(authorization);
-			const id = req.query.id || ObjectId(payload._id);
+			const id = ObjectId(payload._id);
 
 			if(req.query.populate){
 				res.send(await User.findById(id).select({password:0, __v: 0}).populate('experts'));
@@ -82,7 +96,7 @@ class Users{
 
 
 		}catch(err){
-			res.status(403).send({ error: err});
+			res.status(403).send({ message: err});
 		}
 	}
 	// POST /auth/signup
@@ -92,7 +106,7 @@ class Users{
 			const user = await User.findById({_id}).select({password:0, __v: 0});
 			res.send({ data: user });
 		}catch(err){
-			res.status(500).send({ error: err});
+			res.status(500).send({ message: err});
 		}
 	}
 	//PUT /users
@@ -108,7 +122,7 @@ class Users{
 
 			res.send(await User.findByIdAndUpdate(id, data, {new:true}).select({password:0, __v: 0}));
 		}catch(err){
-			res.status(500).send({ error: err});
+			res.status(500).send({ message: err});
 		}
 	}
 	//DELETE /users?id=id
@@ -127,7 +141,7 @@ class Users{
 			}
 			res.send(await User.deleteOne({_id: ObjectId(id)}));
 		}catch(err){
-			res.status(500).send({ error: err});
+			res.status(500).send({ message: err});
 		}
 	}
 }

@@ -26,7 +26,10 @@ class Header extends Component {
 		      </a>
 
 		      <div className={'h-100 d-flex'}>
-			      <Link to={'/'+this.props.page} className="btn btn-page d-flex align-items-center">go to {this.props.page}</Link>
+			      <Link to={'/users'} className={this.props.page == 'users' ? "btn btn-page d-flex align-items-center"
+				      : "btn btn-page d-flex align-items-center active"}>Users</Link>
+			      <Link to={'/experts'} className={this.props.page == 'experts' ? "btn btn-page d-flex align-items-center"
+				      : "btn btn-page d-flex align-items-center active"}>Experts</Link>
 			      <a href="/" className="btn logout d-flex align-items-center" onClick={this.onLogout}>logout</a>
 		      </div>
 	      </div>

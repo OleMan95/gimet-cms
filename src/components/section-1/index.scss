@@ -6,17 +6,23 @@ $page-name-margin: 0 1rem;
     margin-top: 1rem;
 
     select{
-        width: 9rem;
+      width: 12rem;
     }
     .search{
-        margin-left: 1rem;
+      margin-left: 1rem;
     }
     .btn:hover{
-        color: white;
-        background-color: #404e5c;
+      color: white;
+      background-color: #404e5c;
     }
   }
 
+  .thead-dark{
+    th{
+      background-color: $default-color-black;
+      border-color: $default-color-black;
+    }
+  }
   tbody{
     tr{
       cursor: pointer;
