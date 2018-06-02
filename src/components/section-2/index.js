@@ -269,7 +269,7 @@ class Section2 extends Component {
 												</div>
 												{this.state.userExperts.map((expert, index)=>
 													<div key={expert}>
-														<a href="">{expert}</a>
+														<a href={"http://www.gimethub.com/consultation/"+expert}>{expert}</a>
 														<button className="btn btn-secondary" type="button" id={expert}
 														        onClick={(elem)=>{this.deleteExpertClick(elem)}}>x
 														</button>
